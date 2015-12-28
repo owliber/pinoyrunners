@@ -1,0 +1,182 @@
+/*
+Theme Name: Pinoy Runners Theme
+Author: Oliver Candelario
+Author URI: http://pinoyrunners.co
+Description: A simple, responsive membership theme designed in Wordpress Theme
+Version: 1.0
+License:
+License URI:
+Tags: grey, flexible-width, fluid, full-width
+Text Domain: pinoyrunners
+
+This theme will be used exclusively for pinoyrunners.co
+
+*/
+
+/* Color Chart from Flat UI
+
+  Turquoise - #1abc9c
+  Green Sea - #16a085
+  Emerald - #2ecc71
+  Nephritis - #27ae60
+  Wet Asphalt - #34495e
+  Midnight Blue - #2c3e50
+  Concrete - #95a5a6
+  Asbestos - #7f8c8d
+  Clouds - #ecf0f1
+  Silver - #bdc3c7
+  Peter River - #3498db
+  Belize Hole - #2980b9
+  Sun Flower - #f1c40f
+  Orange - #f39c12
+  Carrot - #e67e22
+  Pumpkin - #d35400
+  Alizarin - #e74c3c
+  Pomegrenate - #c0392b
+
+  */
+
+.site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.header, .footer {
+  flex: none;
+}
+
+.site-content {
+  flex: 1 0 auto; /* 2 */
+  padding: var(--space) var(--space) 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.site-content::after {
+  content: '\00a0'; /* &nbsp; */
+  display: block;
+  margin-top: var(--space);
+  height: 0px;
+  visibility: hidden;
+}
+
+@media (--break-lg) {
+  .site-content {
+    padding-top: var(--space-lg);
+  }
+  .site-content::after {
+    margin-top: var(--space-lg);
+  }
+}
+
+#page {
+  padding-top: 8%;
+  padding-bottom: 5%;
+  min-height: 100vh;
+}
+
+.ui.vertical.footer {
+  background-color:  #2c3e50;
+  padding-top: 1%;
+  color: #fff;
+}
+
+.ui.footer a {
+  color: #fff;
+}
+
+.welcome {
+  color: #fff;
+  font-size: 1.8rem;
+}
+
+video#bgvid { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    background: url('assets/images/running.jpg') no-repeat;
+    background-size: cover; 
+}
+
+video#bgvid {
+    transition: 1s opacity;
+}
+
+@media screen and (max-device-width: 800px) {
+    html {
+         background: url('assets/images/running.jpg') #000 no-repeat center center fixed;
+    }
+    #bgvid {
+        display: none;
+    }
+}
+
+.transparent {
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
+
+.semitransparent {
+  opacity: 0.95;
+  filter: alpha(opacity=95);
+}
+
+/** End of full video background styles */
+
+/** Override semantic ui styles for top nav **/
+
+
+#topnav {
+
+  background: #1abc9c;
+
+}
+
+#topnav.menu { 
+  height: 4rem; 
+}
+
+#topnav.menu a { 
+  color: #fff;
+  font-weight: bold;
+}
+
+#topnav.menu a.login { 
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+#topnav.menu a.login:hover { 
+  color: #fff;
+  font-weight: bold;
+}
+
+/** End of top nav override */
+
+
+.topgradient {
+
+  background-image: -moz-linear-gradient(top,  rgba(204, 204, 204, 0.01) 2%, rgba(204, 204, 204, 0.02) 8%, rgba(255, 255, 255, 1) 10%);
+  background-image: -webkit-linear-gradient(top,  rgba(204, 204, 204, 0.01) 2%, rgba(204, 204, 204, 0.02) 8%, rgba(255, 255, 255, 1) 10%);
+  background-image: -o-linear-gradient(top,  rgba(204, 204, 204, 0.01) 2%, rgba(204, 204, 204, 0.02) 8%, rgba(255, 255, 255, 1) 10%);
+  background-image: -ms-linear-gradient(top,  rgba(204, 204, 204, 0.01) 2%, rgba(204, 204, 204, 0.02) 8%, rgba(255, 255, 255, 1) 10%);
+
+}
+
+/* Show messages on top */
+
+.ui.message {
+  z-index: 9999;
+  margin-top: 0;
+}
+
