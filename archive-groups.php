@@ -10,7 +10,7 @@ get_header();
 <div id="page" class="ui container">
         <div class="ui divided items"> 
           <div class="ui right floated buttons">
-            <a href="<?php echo home_url( 'mygroups' ); ?>" class="ui teal button">My Groups</a>
+            <a href="<?php echo home_url( '/home/mygroups' ); ?>" class="ui teal button">My Groups</a>
           </div>
 
           <h2 class="ui left aligned header">
