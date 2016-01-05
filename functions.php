@@ -150,7 +150,7 @@ function add_custom_menus($items, $args)
     	$items .= '<div class="right menu">
 						<a href="'.home_url( 'connect' ).'" class="item">Connect</a>
                         <a href="'.home_url( 'events' ).'" class="item">Events</a>
-                        <a href="'.home_url( 'blog' ).'" class="item">Blog</a>
+                        <!-- <a href="'.home_url( 'blog' ).'" class="item">Blog</a> -->
                         <!-- <a href="'.home_url( 'about' ).'" class="item">About</a> -->
                         '.$show_login.'
                   </div>';
