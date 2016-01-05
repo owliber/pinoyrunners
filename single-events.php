@@ -118,7 +118,7 @@
     <!-- Facebook Comment Plugin -->
 
     <div class="header">Comments and feedback</div>
-    <div class="fb-comments" data-href="http://www.pinoyrunners.co" data-width="100%" data-numposts="10"></div>
+    <div class="fb-comments" data-href="<?php the_permalink(); ?>" data-width="100%" data-numposts="10"></div>
   </div>
 
   <div class="ui buttons">
