@@ -11,9 +11,6 @@ if ( !defined( 'ABSPATH' ) ) {
 
 ?>
 <div class="ui hidden divider"></div>
-<div class="ui hidden divider"></div>
-<div class="ui hidden divider"></div>
-<div class="ui hidden divider"></div>
 <div class="ui secondary segment">
 	<?php echo do_shortcode('[pr_login_form]'); ?>
 </div>

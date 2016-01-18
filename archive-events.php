@@ -6,9 +6,12 @@ Template Name: Events Template
 get_header();
 
 ?>
-<div id="page" class="ui container">
+<div id="page" class="ui grid container">
+  <div class="twelve wide column">
         <div class="ui relaxed divided items"> 
-          <button class="ui right floated green default button">Subscribe</button>
+          <?php if ( ! is_user_logged_in() ) : ?>
+            <button id="btn_subscribe" class="ui right floated green default button">Subscribe</button>
+          <?php endif; ?>
           <h2 class="ui left aligned header">
           <i class="calendar icon"></i>
             <div class="content">
@@ -60,7 +63,6 @@ get_header();
                 <?php 
                   //Remote the attached image
                   $content = get_the_content();
-                  //$content = trim($content, '\t\n\r\0\x0B');
                   $content = preg_replace("/<img[^>]+\>/i", " ", $content);          
                   $content = apply_filters('the_content', $content);
                   $content = str_replace(']]>', ']]>', $content);
@@ -105,6 +107,91 @@ get_header();
         <?php endif; ?>
           
       </div> <!-- items -->
+  </div> <!-- twelve wide left col -->
+  <div class="four wide right column">
+    <h3 class="ui header">Featured Events</h3>
+    <div class="ui segments">
+      <?php
+      /* Get all Sticky Posts */
+      $sticky = get_option( 'sticky_posts' );
+
+      /* Sort Sticky Posts, newest at the top */
+      rsort( $sticky );
+
+      /* Get top 5 Sticky Posts */
+      $sticky = array_slice( $sticky, 0, 5 );
+
+      $args = array(
+        'post__in' => $sticky, 
+        'ignore_sticky_posts' => 1,
+        'post_type' => 'events',
+        'meta_key' => 'race_date',
+        'orderby' => 'meta_value_num',
+        'order' => 'ASC',
+        'meta_query'  => array(
+          'relation'    => 'AND',
+          array(
+            'key'     => 'is_featured',
+            'value'     => '1',
+            'compare'   => '=',
+          ),
+        ),
+      );
+
+      $query = new WP_Query( $args );
+
+      while( $query->have_posts() ) :
+        setup_postdata( $query );  
+        $query->the_post();
+        $ID = get_the_id();
+      ?>
+
+      <div class="ui raised segment">
+          <h4 class="ui header"><?php echo get_the_title(); ?>
+            <div class="sub header"><?php echo date('F d, Y',strtotime( get_field( 'race_date' ) ) ); ?></div>
+          </h4>
+          
+          <a href="<?php echo get_permalink(); ?>" class="ui medium image">
+            <?php echo get_the_post_thumbnail(); ?>
+          </a>
+      </div>
+
+      <?php endwhile; 
+      wp_reset_postdata();
+      ?>
+    </div>
+  </div> <!-- four wide col -->
 </div> <!-- page -->
+    
+<div id="modal-subscribe" class="ui small modal">    
+  <div class="ui segment">
+    <form class="ui form" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=pinoyrunners', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">
+      <h3 class="ui header">
+        Subscribe to our newsletter to receive new events and updates.
+      </h3>    
+      <div class="content">
+        <div class="inline fields">
+          <div class="required six wide field">
+            <div class="ui input">       
+              <input id="subscriber_name" type="text" placeholder="Enter your name" required>            
+            </div>
+          </div>
+          <div class="required ten wide field">    
+            <div class="ui input">         
+            <input id="subscriber_email" type="text" name="email" placeholder="Enter your email address" required>
+            </div> 
+          </div>
+          <div class="field">    
+            <input type="hidden" value="pinoyrunners" name="uri"/><input type="hidden" name="loc" value="en_US"/>
+            <button type="submit" id="subscribe" class="ui teal button" value="Subscribe" >Subscribe</button>
+          </div>
+        </div>
+      </div>      
+    </form>
+  </div>
+</div>
+    
+  
+    
 
 <?php get_footer(); ?>

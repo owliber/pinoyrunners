@@ -19,7 +19,7 @@ get_header(); ?>
 		          $url = WP_CONTENT_URL.'/uploads/thumbnail/wireframe.png';
 		        }        
 		      ?>
-		      <img src="<?php echo $url; ?>" class="ui circular small image">
+		      <img src="<?php echo $url; ?>" class="ui circular medium image">
 		      <div class="ui hidden divider"></div>
 		      <div class="content">
 		        <?php echo the_title(); ?>
@@ -29,6 +29,7 @@ get_header(); ?>
 
 		    <div class="ui raised clearing padded segment">
 		        <?php the_content(); ?>
+		        <div class="fb-like" data-href="<?php the_permalink(); ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
 		    </div>
 
 	    <?php

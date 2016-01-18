@@ -5,8 +5,10 @@ add_theme_support( 'custom-header' );
 add_theme_support( 'post-thumbnails' );
 //add_theme_support( 'custom-background' );
 add_theme_support( 'html5', array( 'search-form' ) );
-
 add_action( 'init', 'register_theme_menus' );
+//add_theme_support( 'title-tag' );
+add_filter('jetpack_enable_open_graph', '__return_false', 99);
+
 function register_theme_menus() {
 
 	register_nav_menus(
@@ -86,17 +88,17 @@ function add_custom_menus($items, $args)
         	$show_edit_button = '<div class="item"> <button id="btn-edit-page" class="ui red button">Edit Page</button> </div>';
 
         	$items .= '<div class="left menu">
-    					    <div class="eight wide item">
-    					      <div class="ui stackable search">
-    							  <div class="ui icon input">
-                                    <form role="search" method="post" class="search-form" action="'.home_url( "search/" ).'">
-                                        <label>
-                                            <input type="search" class="search-field" placeholder="'.esc_attr_x( 'Search …', 'placeholder' ).'" value="'.get_search_query().'" name="s" title="'.esc_attr_x( 'Search for:', 'label' ).'" />
-                                        </label>
+    					    <div class="item">
+    					      <div class="ui search">
+                                  <div class="ui icon input">
+                                    <form role="search" method="post" class="search-form" action="'.home_url().'">
+                                      <label>
+                                          <input type="search" class="search-field" placeholder="'.esc_attr_x( 'Search an event, member, groups or interests …', 'placeholder' ).'" value="'.get_search_query().'" name="s" title="'.esc_attr_x( 'Search an event, member, groups or interests', 'label' ).'" required>
+                                      </label>
                                     </form>
-    							    <i class="search icon"></i>
-    							  </div>
-    							</div>
+                                    <i class="search icon"></i>
+                                  </div>
+                                </div>
     					    </div>
     					    <a href="'.home_url( 'connect' ).'" class="item">Connect</a>
     				    </div>
@@ -115,7 +117,7 @@ function add_custom_menus($items, $args)
     	                           <a class="item" href="'.home_url( 'settings/profile' ).'">Edit Profile</a>
     	                           <a class="item" href="'.home_url( 'settings/account' ).'">Account</a>
     	                           <a class="item" href="'.home_url( 'settings/privacy' ).'">Privacy</a>
-    	                           <a class="item" href="'.home_url( 'settings/notifications' ).'">Notications</a>
+    	                           <!-- <a class="item" href="'.home_url( 'settings/notifications' ).'">Notications</a> -->
     	                           <a class="item" href="' . wp_logout_url('/index.php') . '" title="Logout">' . __( 'Logout' ) . '</a>
     	                        </div> <!-- /Sub menu -->
                         	</div>
@@ -132,22 +134,28 @@ function add_custom_menus($items, $args)
     	if ( !is_front_page() && ! $register && ! $login ) {
 
     	 $items .= '<div class="left menu">
-					    <div class="eight wide item">
-					      <div class="ui stackable search">
-							  <div class="ui icon input">
-							    <input class="prompt" placeholder="Search an interest, location, groups or name" type="text">
-							    <i class="search icon"></i>
-							  </div>
-							  <div class="results"></div>
-							</div>
+					    <div class="item">
+					      <div class="ui icon input">
+                            <form role="search" method="post" class="search-form" action="'.home_url().'">
+                              <label>
+                                  <input type="search" class="search-field" placeholder="'.esc_attr_x( 'Search an event, member, groups or interests …', 'placeholder' ).'" value="'.get_search_query().'" name="s" title="'.esc_attr_x( 'Search an event, member, groups or interests ', 'label' ).'" required>
+                              </label>
+                            </form>
+                            <i class="search icon"></i>
+                          </div>
 					    </div>
 					    <a href="'.home_url( 'register' ).'" class="item">Register</a>
 				    </div>';
    		 }
 
-    	if ( ! is_front_page() && ! $register && ! $login ) $show_login = '<a href="'.home_url( 'login' ).'" class="login item">Login</a>';
-    	
-    	$items .= '<div class="right menu">
+    	if ( ! is_front_page() && ! $register && ! $login ) :
+            $show_login = '<a href="'.home_url( 'login' ).'" class="login item">Login</a>';
+    	    $menu_location = 'right';
+        else:
+            $menu_location = 'left';
+        endif;
+
+    	$items .= '<div id="lrmenu" class="'.$menu_location.' menu">
 						<a href="'.home_url( 'connect' ).'" class="item">Connect</a>
                         <a href="'.home_url( 'events' ).'" class="item">Events</a>
                         <!-- <a href="'.home_url( 'blog' ).'" class="item">Blog</a> -->
@@ -272,15 +280,57 @@ function custom_post_type_event() {
         'query_var' => true,
         'rewrite' => array( 'slug' => 'events'),
         //'capability_type' => 'page',
-        'has_archive' => false,
+        'has_archive' => true,
         'hierarchical' => true,
         'menu_position' => null,
-        //'menu_icon' => get_template_directory_uri() . '/images/icons/people.png',
-        'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt','page-attributes', 'comments'),
+        //'menu_icon' => get_template_directory_uri() . '/images/icons/people.png',        
+        'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt','page-attributes', 'comments', 'tags'),
     );
+    register_taxonomy('event_tag','events', array(
+        'hierarchical' => false,
+        'labels' => __( 'Tags', 'pinoyrunners'),
+        'singulare_name' => __( 'Tag', 'pinoyrunners' ),
+        'query_var' => true,
+        'rewrite' => array( 'slug' => 'event' ),
+
+      ));
 
     register_post_type('events', $event_args);
 }
+
+// get taxonomies terms links
+function custom_taxonomies_terms_links( $post_id ){
+  // get post by post id
+  $post = get_post( $post_id );
+
+  // get post type by post
+  $post_type = $post->post_type;
+
+  // get post type taxonomies
+  $taxonomies = get_object_taxonomies( $post_type, 'objects' );
+
+  $out = array();
+  foreach ( $taxonomies as $taxonomy_slug => $taxonomy ){
+
+    // get the terms related to post
+    $terms = get_the_terms( $post_id, $taxonomy_slug );
+
+    if ( !empty( $terms ) ) {
+      $out[] = "<h2>" . $taxonomy->label . "</h2>\n<ul>";
+      foreach ( $terms as $term ) {
+        $out[] =
+          '  <li><a href="'
+        .    get_term_link( $term->slug, $taxonomy_slug ) .'">'
+        .    $term->name
+        . "</a></li>\n";
+      }
+      $out[] = "</ul>\n";
+    }
+  }
+
+  return implode('', $out );
+}
+
 
 function get_url_user_name() {
 	$URI = $_SERVER['REQUEST_URI'];		 
@@ -299,37 +349,39 @@ function is_valid_member_page() {
 	}
 }
 
-function get_meta() {
-
-	if( is_valid_member_page() ) {
-
-		$member = get_url_user_name();
-
-		$profile = get_user_by( 'login', $member );
-		$user_id = $profile->ID;
-        $thumb_file = get_user_meta( $user_id, 'pr_member_thumbnail_image', true );
-		$display_name = $profile->display_name;
-		$description = get_user_meta( $user_id, 'description', true );
-        $background = THUMB_DIR . '/' . $thumb_file;
-
-		$meta = array(
-			'display_name' => $display_name,
-			'description' => $description,
-			'background' => $background,
-		);
-
-	} else {
-
-		$meta = array(
-			'display_name' => get_bloginfo(),
-			'description' => get_bloginfo( 'description' ),
-			'background' => get_bloginfo( 'url' ) . '/img/background/test.png',
-		);
-
-	}
-		
-	return $meta;
+function author_background_image( $image ) {
+  
+    $member = get_url_user_name();
+    $profile = get_user_by( 'login', $member );
+    $user_id = $profile->ID;
+    $thumb_file = get_user_meta( $user_id, 'pr_member_thumbnail_image', true );
+    $image = THUMB_DIR . '/' . $thumb_file;
+    return $image;
 }
+
+function author_description( $desc ) {
+
+    $member = get_url_user_name();
+    $profile = get_user_by( 'login', $member );
+    $user_id = $profile->ID;
+    $desc = get_user_meta( $user_id, 'description', true );
+    return $desc;
+
+}
+
+function seo_modify() {
+    if( is_author()) : 
+        add_filter( 'wpseo_metadesc', 'author_description');
+        add_filter( 'wpseo_opengraph_image', 'author_background_image');
+    endif;
+}
+add_action( 'wpseo_head', 'seo_modify' );
+
+add_action( 'wp_ajax_join_group', 'join_group' );
+add_action( 'wp_ajax_nopriv_join_group', 'join_group' );
+add_action( 'wp_ajax_subscribe_to_newsletter', 'subscribe_to_newsletter' );
+add_action( 'wp_ajax_nopriv_subscribe_to_newsletter', 'subscribe_to_newsletter' );
+add_action( 'wp_enqueue_scripts', 'enqueue_join_ajax_script' );
 
 function enqueue_join_ajax_script() {   
 
@@ -339,7 +391,8 @@ function enqueue_join_ajax_script() {
     'ajaxurl' => admin_url( 'admin-ajax.php' ),
     // generate a nonce with a unique ID "myajax-post-comment-nonce"
     // so that you can check it later when an AJAX request is sent
-    'security' => wp_create_nonce( 'pr-join-a-group-event' )
+    'security' => wp_create_nonce( 'pr-join-a-group-event' ),
+    'subscribe' => wp_create_nonce( 'pr-subscribe-to-newsletter' )
   ));
   
 }
@@ -402,9 +455,34 @@ function join_group() {
 
 }
 
-add_action( 'wp_ajax_join_group', 'join_group' );
-add_action( 'wp_ajax_nopriv_join_group', 'join_group' );
-add_action( 'wp_enqueue_scripts', 'enqueue_join_ajax_script' );
+function subscribe_to_newsletter() {
+
+    if ( isset( $_POST['name'] ) && isset( $_POST['email'] ) && is_email( $_POST['email'] ) ) {
+
+        require_once( WP_PLUGIN_DIR . '/pr-membership/models/subscriber-model.php' );
+        $model = new Subscriber_Model;
+
+        $model->name = sanitize_text_field( $_POST['name'] );
+        $model->email = sanitize_email( $_POST['email'] );
+        $result = $model->insert();
+
+        if( $result ) {
+            $result_code = 0;
+            $result_msg ="Thank you for subscribing to us! See you on the road!";
+        } else {
+            $result_code = 0;
+            $result_msg ="Something went wrong, please try again later!";
+        }        
+
+        wp_send_json( array( 
+                'result_code'=>$result_code, 
+                'result_msg'=>$result_msg,
+            ) );
+
+        wp_die();
+
+    }
+}
 
 function get_groups() {
 
@@ -529,3 +607,24 @@ function is_not_joined_in_group( $group_id ) {
         return false;
 
 }
+
+function is_public( $key, $user_id ) {
+
+    if( metadata_exists( 'user', $user_id, $key ) ) {
+        $meta = get_user_meta( $user_id, $key, true );
+
+        if( $meta == 1 )
+            return true;
+    }
+
+    return false;
+
+}
+
+//Include custom post types in feedburner RSS
+function myfeed_request($qv) {
+    if (isset($qv['feed']))
+        $qv['post_type'] = array( 'post', 'events' );  get_post_types(); //
+    return $qv;
+}
+add_filter('request', 'myfeed_request');

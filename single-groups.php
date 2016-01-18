@@ -77,7 +77,7 @@
             <div class="content">
               <a class="header" href="<?php echo home_url( 'member/'.$member->user_login ); ?>">
                 <?php 
-                    if ( get_user_meta( $member->ID, 'first_name', true ) != "" && get_user_meta( $member->ID, 'last_name', true ) != "" ) {
+                    if ( is_public( 'show_name', $member->ID ) && get_user_meta( $member->ID, 'first_name', true ) != "" && get_user_meta( $member->ID, 'last_name', true ) != "" ) {
                       $firstname = get_user_meta( $member->ID, 'first_name', true ); 
                       $lastname = get_user_meta( $member->ID, 'last_name', true ); 
                       $member_name = $firstname . ' ' . $lastname;

@@ -2,17 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <?php $meta = get_meta(); ?>
-    <!-- For SEO Meta  -->
-    <meta property="og:url"           content="<?php echo home_url( $_SERVER['REQUEST_URI'] );  ?>" />
-    <meta property="og:type"          content="website" />
-    <meta property="og:title"         content="<?php echo $meta['display_name']; ?>" />
-    <meta property="og:description"   content="<?php echo $meta['description']; ?>" />
-    <meta property="og:image"         content="<?php echo $meta['background']; ?>" />
-
-    <title>pinoyrunners.co &mdash; An online Filipino marathoners, ultramathoners, runners, tri-athletes and fun-runner's community.</title>
-    <title><?php wp_title( '|', true, 'right' ); bloginfo( 'name' ); ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">      
+    <title><?php wp_title( '|', true, 'right' ); ?> &mdash; <?php bloginfo( 'description' ); ?></title>
 
     <?php wp_head(); ?>
 
@@ -20,12 +11,25 @@
 
   <body class="site" <?php body_class(); ?>>
 
+      <!-- Facebook Plugin -->
+      <div id="fb-root"></div>
+      <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=1726152354286226";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+      <!-- Facebook Plugin -->
+      
       <!-- Toggable Top Sidebar For Editing Page -->
       <div class="ui top sidebar">
-          <?php echo do_shortcode( '[pr_upload]' ); ?>
+        <?php if ( is_user_logged_in() ) : ?>
+          <?php echo do_shortcode( '[pr_edit_page]' ); ?>
+        <?php endif; ?>
       </div><!-- Toggable Sidebar -->
 
-      <div id="topnav" class="ui top fixed secondary transparent menu">
+      <div <?php if( ! is_front_page() ) echo 'id="topnav"'; ?> class="ui top fixed secondary transparent menu">
         <!-- Header Image -->
         <div class="header item">          
           <!-- Has upload header image -->
