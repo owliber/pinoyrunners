@@ -23,15 +23,18 @@
       <!-- Facebook Plugin -->
       
       <!-- Toggable Top Sidebar For Editing Page -->
+      
       <div class="ui top sidebar">
-        <?php if ( is_user_logged_in() ) : ?>
+      <?php if ( is_user_logged_in() && is_author() ) : ?>
           <?php echo do_shortcode( '[pr_edit_page]' ); ?>
-        <?php endif; ?>
+      <?php endif; ?>
       </div><!-- Toggable Sidebar -->
+      
 
       <div <?php if( ! is_front_page() ) echo 'id="topnav"'; ?> class="ui top fixed secondary transparent menu">
+        
         <!-- Header Image -->
-        <div class="header item">          
+        <div class="header item">
           <!-- Has upload header image -->
           <?php if ( get_header_image() != '' ) : ?>
           <?php is_user_logged_in() ? $logo_url = home_url( 'home' ) : $logo_url = home_url(); ?>
@@ -42,10 +45,7 @@
           <?php if( !get_header_image() ) : ?>
             <a class="brand" href="#"><?php bloginfo( 'name' ); ?></a>
           <?php endif; ?>
-
-        </div><!-- Header Image -->
-
-       <!--  <div class="ui container"> -->
+        </div><!-- Header Image -->       
 
           <?php
              /**
@@ -55,13 +55,10 @@
             $menu = array(              
               'theme_location' => is_user_logged_in() ? 'homepage-menu' : 'frontpage-menu',
               'container' => '',
-              //'menu_class' => '',
               'items_wrap' => '%3$s'
             );
 
             wp_nav_menu( $menu );
-
           ?>
-        <!-- </div> -->
+        
     </div>
-    <!-- <div id="content" class="ui container"> -->
