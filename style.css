@@ -35,8 +35,8 @@ This theme will be used exclusively for pinoyrunners.co
   Pomegrenate - #c0392b
 
   */
-
-.site {
+ 
+  .site {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
