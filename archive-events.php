@@ -135,8 +135,14 @@ get_header();
             'value'     => '1',
             'compare'   => '=',
           ),
+          array(
+            'key' => 'race_date',
+            'value' => date('Ymd',strtotime(CUR_DATE)),
+            'compare' => '>=',
+          ),
         ),
       );
+
 
       $query = new WP_Query( $args );
 

@@ -27,6 +27,13 @@
         'meta_key' => 'race_date',
         'orderby' => 'meta_value_num',
         'order' => 'ASC',
+        'meta_query' => array(
+          array(
+            'key' => 'race_date',
+            'value' => date('Ymd',strtotime(CUR_DATE)),
+            'compare' => '>=',
+          ),
+        ),
       );
 
       $query = new WP_Query( $args );
