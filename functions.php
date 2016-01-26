@@ -354,28 +354,32 @@ function author_background_image( $image ) {
     $member = get_url_user_name();
     $profile = get_user_by( 'login', $member );
     $user_id = $profile->ID;
-    $thumb_file = get_user_meta( $user_id, 'pr_member_thumbnail_image', true );
-    $image = THUMB_DIR . '/' . $thumb_file;
+    $image_file = get_user_meta( $user_id, 'pr_member_background_image', true );
+    $image = PROFILE_URL . $image_file;
+
     return $image;
 }
 
-function author_description( $desc ) {
+function author_description( $description ) {
 
     $member = get_url_user_name();
     $profile = get_user_by( 'login', $member );
     $user_id = $profile->ID;
-    $desc = get_user_meta( $user_id, 'description', true );
-    return $desc;
+    $description = get_the_author_meta( 'description', $user_id);
+
+    return $description;
 
 }
 
 function seo_modify() {
-    if( is_author()) : 
-        add_filter( 'wpseo_metadesc', 'author_description');
+    if( is_author()) { 
         add_filter( 'wpseo_opengraph_image', 'author_background_image');
-    endif;
+        add_filter( 'wpseo_opengraph_desc', 'author_description');
+        add_filter( 'wpseo_metadesc', 'author_description');
+    }
 }
-add_action( 'wpseo_head', 'seo_modify' );
+
+add_action( 'wpseo_head', 'seo_modify',1,3);
 
 add_action( 'wp_ajax_join_group', 'join_group' );
 add_action( 'wp_ajax_nopriv_join_group', 'join_group' );
