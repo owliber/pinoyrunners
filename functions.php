@@ -158,7 +158,7 @@ function add_custom_menus($items, $args)
     	$items .= '<div id="lrmenu" class="'.$menu_location.' menu">
 						<a href="'.home_url( 'connect' ).'" class="item">Connect</a>
                         <a href="'.home_url( 'events' ).'" class="item">Events</a>
-                        <!-- <a href="'.home_url( 'blog' ).'" class="item">Blog</a> -->
+                        <a href="'.home_url( 'blog' ).'" class="item">Blog</a>
                         <!-- <a href="'.home_url( 'about' ).'" class="item">About</a> -->
                         '.$show_login.'
                   </div>';
@@ -284,7 +284,7 @@ function custom_post_type_event() {
         'hierarchical' => true,
         'menu_position' => null,
         //'menu_icon' => get_template_directory_uri() . '/images/icons/people.png',        
-        'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt','page-attributes', 'comments', 'tags'),
+        'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt','page-attributes', 'comments', 'tags', 'publicize'),
     );
     register_taxonomy('event_tag','events', array(
         'hierarchical' => false,
