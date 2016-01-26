@@ -105,7 +105,7 @@ function add_custom_menus($items, $args)
     				    <div class="right menu">
     				    	<a href="'.home_url( 'home' ).'" class="item">Home</a>
     				    	<a href="'.home_url( 'events' ).'" class="item">Events</a>
-                            <!-- <a href="'.home_url( 'category/blog' ).'" class="item">Blog</a> -->
+                            <a href="'.home_url( 'blog' ).'" class="item">Blog</a>
     				    	<div class="ui dropdown item">						
     	                        <a href="'.home_url( $current_user->user_login ).'" class="item">
     	                           '.ucfirst($current_user->user_nicename).'                                       

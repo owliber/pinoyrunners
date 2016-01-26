@@ -7,7 +7,7 @@
 	    	<div class="four top aligned wide column">
 	    		<a href="<?php echo home_url( 'connect' ); ?>" class="item">connect</a> &middot; 
 	    		<a href="<?php echo home_url( 'events' ); ?>" class="item">events</a> &middot;
-	    		<!-- <a href="<?php echo home_url(); ?>" class="item">blog</a> &middot; --> 
+	    		<a href="<?php echo home_url( 'blog'); ?>" class="item">blog</a> &middot; 
 	    		<a href="<?php echo home_url( 'register' ); ?>" class="item">register</a> &middot; 
 	    		<a href="<?php echo home_url( 'login' ); ?>" class="item">login</a>
 	    		<!-- <a href="<?php echo home_url(); ?>" class="item">terms</a> -->
