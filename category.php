@@ -32,10 +32,30 @@ get_header(); ?>
               	  	<?php the_date(); ?>
               	  </div>
 	              <div class="description">                
-                	<p><?php the_content(); ?></p>
+                	<p><?php //the_content(); 
+                		$content = get_the_content();
+		                  $content = preg_replace("/<img[^>]+\>/i", " ", $content);          
+		                  $content = apply_filters('the_content', $content);
+		                  $content = str_replace(']]>', ']]>', $content);
+		                  $content = preg_replace('/^\s+|\n|\r|\s+$/m', '', $content);
+		                  $content = wp_trim_words($content, 50, ' ...');
+		                  
+		                  echo $content;
+                	?></p>
               	  </div>
               	  <div class="meta">
-              	  	<?php the_tags(); ?>
+              	  	Tags 
+              	  	<?php 
+			        	$tags = get_the_tags();
+			        	if ($tags) {
+						  foreach($tags as $tag) {
+						    echo '<a href="'.get_tag_link($tag->term_id).'" class="ui label">'.$tag->name.'</a>';
+						  }
+						}
+			         ?>
+              	  </div>
+              	  <div class="extra">
+              	  	<div class="fb-like" data-href="<?php the_permalink(); ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
               	  </div>
 	            </div>
 	             

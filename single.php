@@ -29,8 +29,20 @@ get_header(); ?>
 
 		    <div class="ui raised clearing padded segment">
 		        <?php the_content(); ?>
-		        <div class="fb-like" data-href="<?php the_permalink(); ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+		        Tags
+		        <?php 
+		        	$tags = get_the_tags();
+		        	if ($tags) {
+					  foreach($tags as $tag) {
+					    echo '<a href="'.get_tag_link($tag->term_id).'" class="ui tag label">'.$tag->name.'</a>';
+					  }
+					}
+		         ?>
 		    </div>
+		    <div class="ui segment">
+		        <div class="header">Comments and feedback</div>
+		        <div class="fb-comments" data-href="<?php the_permalink(); ?>" data-width="100%" data-numposts="10"></div>
+		      </div>
 
 	    <?php
 			// Add facebook comment plugin here
