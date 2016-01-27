@@ -73,7 +73,9 @@ get_header();
 
                 ?></p>
               </div>
-              
+              <div class="extra">
+                <div class="fb-like" data-href="<?php echo get_post_permalink( $event->ID ); ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+              </div>
               <div class="extra"> 
                 <span class="member-joined-archive-<?php echo $event->ID; ?>"><?php echo get_post_meta( $event->ID, 'member_joined', true ); ?> runners will be attending this event.</span>
                               
@@ -89,7 +91,7 @@ get_header();
                 <?php endif; ?>
 
                 <span class="error-archive-"<?php echo $event->ID; ?>></span>
-              </div>
+              </div>              
 
             </div>
           </div>
