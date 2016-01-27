@@ -26,7 +26,9 @@ add_action( 'wp_enqueue_scripts', 'wppr_theme_styles' );
 function wppr_theme_styles() {
 	wp_enqueue_style( 'sui-min-css', get_stylesheet_directory_uri() . '/css/semantic.min.css' );
 	wp_enqueue_style( 'main-css', get_stylesheet_directory_uri() . '/style.css' );
-    wp_enqueue_style( 'daterangepicker-css', plugins_url( PR_Membership::PLUGIN_FOLDER  . '/css/daterangepicker.min.css' ));
+    
+    if( is_user_logged_in() )
+         wp_enqueue_style( 'daterangepicker-css', plugins_url( PR_Membership::PLUGIN_FOLDER  . '/css/daterangepicker.min.css' ));
 	
 }
 
@@ -34,11 +36,12 @@ add_action( 'wp_enqueue_scripts', 'wppr_theme_scripts' );
 function wppr_theme_scripts() {
 	wp_enqueue_script( 'jquery-min-js', get_stylesheet_directory_uri() . '/js/jquery.min.js', '', '', false );
 	wp_enqueue_script( 'sui-min-js', get_stylesheet_directory_uri() . '/js/semantic.min.js', array('jquery'), '', false );
-    
-    wp_enqueue_script( 'moment-min', plugins_url( PR_Membership::PLUGIN_FOLDER  . '/js/moment.js'), array('jquery' ), '', false );
-    wp_enqueue_script( 'daterangepicker-min', plugins_url( PR_Membership::PLUGIN_FOLDER  . '/js/daterangepicker.js' ), array('jquery'), '', false );
     wp_enqueue_script( 'membership-js', plugins_url( PR_Membership::PLUGIN_FOLDER  . '/js/membership-js.js' ), array('jquery'), '', true );
-    
+
+    if( is_user_logged_in() ):
+        wp_enqueue_script( 'moment-min', plugins_url( PR_Membership::PLUGIN_FOLDER  . '/js/moment.js'), array('jquery' ), '', false );
+        wp_enqueue_script( 'daterangepicker-min', plugins_url( PR_Membership::PLUGIN_FOLDER  . '/js/daterangepicker.js' ), array('jquery'), '', false );
+    endif;    
 
 }
 
