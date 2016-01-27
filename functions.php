@@ -371,6 +371,7 @@ function author_description( $description ) {
 
 }
 
+add_action( 'wpseo_head', 'seo_modify',1,3);
 function seo_modify() {
     if( is_author()) { 
         add_filter( 'wpseo_opengraph_image', 'author_background_image');
@@ -379,25 +380,27 @@ function seo_modify() {
     }
 }
 
-add_action( 'wpseo_head', 'seo_modify',1,3);
+add_action( 'init', 'enqueue_ajax_actions' );
+function enqueue_ajax_actions() {
+    if( is_user_logged_in() ) :
+        add_action( 'wp_ajax_join_group', 'join_group' );
+        add_action( 'wp_ajax_nopriv_join_group', 'join_group' );
+    endif;
+}
 
-add_action( 'wp_ajax_join_group', 'join_group' );
-add_action( 'wp_ajax_nopriv_join_group', 'join_group' );
-add_action( 'wp_ajax_subscribe_to_newsletter', 'subscribe_to_newsletter' );
-add_action( 'wp_ajax_nopriv_subscribe_to_newsletter', 'subscribe_to_newsletter' );
 add_action( 'wp_enqueue_scripts', 'enqueue_join_ajax_script' );
+add_action( 'wp_ajax_nopriv_subscribe_to_newsletter', 'subscribe_to_newsletter' );
+add_action( 'wp_ajax_subscribe_to_newsletter', 'subscribe_to_newsletter' );
 
 function enqueue_join_ajax_script() {   
-
   wp_enqueue_script( 'ajax-join-js', plugins_url(PR_Membership::PLUGIN_FOLDER  . '/js/ajax-join.js'), array('jquery'), '1.0.0', true );
-  wp_localize_script( 'ajax-join-js', 'AjaxJoin', array(
-    // URL to wp-admin/admin-ajax.php to process the request
-    'ajaxurl' => admin_url( 'admin-ajax.php' ),
-    // generate a nonce with a unique ID "myajax-post-comment-nonce"
-    // so that you can check it later when an AJAX request is sent
-    'security' => wp_create_nonce( 'pr-join-a-group-event' ),
-    'subscribe' => wp_create_nonce( 'pr-subscribe-to-newsletter' )
-  ));
+  if( is_user_logged_in() ) :
+      wp_localize_script( 'ajax-join-js', 'AjaxJoin', array(
+        'ajaxurl' => admin_url( 'admin-ajax.php' ),
+        'security' => wp_create_nonce( 'pr-join-a-group-event' ),
+        'subscribe' => wp_create_nonce( 'pr-subscribe-to-newsletter' )
+      ));
+  endif;
   
 }
 
