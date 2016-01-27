@@ -19,9 +19,9 @@
 	</div>	
 	
 	<!-- Attribution for video background -->
-	<div class="attribution fade">
+	<!-- <div class="attribution fade">
 		<p>Background <a href="https://www.youtube.com/channel/UCbnvf4LXzPZoyk0ByxWxgVg" target="_blank">video</a> from <a href="https://www.youtube.com/channel/UCbnvf4LXzPZoyk0ByxWxgVg" target="_blank">RioRunnerVideos</a> used under <a href="http://creativecommons.org/licenses/by/2.0/" target="_blank">CC BY</a> and Standard YouTube License. <br /> 30 seconds clipped from the original and added BW effect.</p>
-	</div>
+	</div> -->
 
     <video autoplay loop muted poster="<?php echo get_template_directory_uri(); ?>/assets/images/running.jpg" id="bgvid">
 		<source src="<?php echo get_template_directory_uri(); ?>/assets/videos/running.ogv" type="video/ogg">
