@@ -77,7 +77,15 @@ get_header();
                 <div class="fb-like" data-href="<?php echo get_post_permalink( $event->ID ); ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
               </div>
               <div class="extra"> 
-                <span class="member-joined-archive-<?php echo $event->ID; ?>"><?php echo get_post_meta( $event->ID, 'member_joined', true ); ?> runners will be attending this event.</span>
+                <span class="member-joined-archive-<?php echo $event->ID; ?>">
+                <?php 
+
+                  $runner_count = get_post_meta( $event->ID, 'member_joined', true ); 
+                  $runner_count > 1 ? $s = ' runners' : $s = ' runner';
+
+                  echo $runner_count . $s . ' will be attending this event';
+                  
+                ?></span>
                               
                 <?php if ( is_user_logged_in() ): ?>
                   <?php if( is_member_joined( $event->ID ) ) : ?>
