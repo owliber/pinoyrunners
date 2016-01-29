@@ -46,7 +46,7 @@
 
           <div class="ui right floated buttons">
             <a href="<?php echo home_url( 'groups' ); ?>" class="ui button">Global Groups</a>
-            <a href="<?php echo home_url( 'mygroups' ); ?>" class="ui teal button">My Groups</a>
+            <a href="<?php echo home_url( 'home/mygroups' ); ?>" class="ui teal button">My Groups</a>
           </div>
           <span class="error-<?php echo $post->ID; ?>"></span>
           <h2 class="ui left aligned header">
