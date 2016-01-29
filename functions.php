@@ -90,6 +90,12 @@ function add_custom_menus($items, $args)
         if ( PR_Membership::is_member_page() )
         	$show_edit_button = '<div class="item"> <button id="btn-edit-page" class="ui red button">Edit Page</button> </div>';
 
+            $first_name =  get_user_meta( get_current_user_id(), 'first_name', true );
+            if( isset( $first_name ))
+                $member_name = $first_name;
+            else
+                $member_name = ucfirst($current_user->user_nicename);
+
         	$items .= '<div class="left menu">
     					    <div class="item">
     					      <div class="ui search">
@@ -111,7 +117,7 @@ function add_custom_menus($items, $args)
                             <a href="'.home_url( 'blog' ).'" class="item">Blog</a>
     				    	<div class="ui dropdown item">						
     	                        <a href="'.home_url( $current_user->user_login ).'" class="item">
-    	                           '.ucfirst($current_user->user_nicename).'                                       
+    	                           '.$member_name.'                                       
     								<i class="dropdown icon"></i>
     	                        </a>
     	                        <div class="menu">
@@ -638,3 +644,27 @@ function myfeed_request($qv) {
     return $qv;
 }
 add_filter('request', 'myfeed_request');
+
+
+function new_user_column( $column ) {
+    $column['is_featured'] = 'Featured';
+    return $column;
+}
+add_filter( 'manage_users_columns', 'new_user_column' );
+
+function new_modify_user_table_row( $val, $column_name, $user_id ) {
+    $user = get_userdata( $user_id );
+    switch ($column_name) {
+        case 'is_featured' :
+            $val = get_the_author_meta( 'is_featured', $user_id );
+            if( $val == 1) 
+                $retval = 'Yes';
+            else 
+                $retval = 'No';
+            return $retval;
+            break;
+        default:
+    }
+    return $return;
+}
+add_filter( 'manage_users_custom_column', 'new_modify_user_table_row', 10, 3 );
