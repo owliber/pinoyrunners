@@ -11,17 +11,17 @@
       $post_id = $post->ID;
 
       /* Get all Sticky Posts */
-      $sticky = get_option( 'sticky_posts' );
+      //$sticky = get_option( 'sticky_posts' );
 
       /* Sort Sticky Posts, newest at the top */
-      rsort( $sticky );
+      //rsort( $sticky );
 
       /* Get top 5 Sticky Posts */
-      $sticky = array_slice( $sticky, 0, 15 );
+      //$sticky = array_slice( $sticky, 0, 15 );
      
       $args = array(
-        'post__in' => $sticky, 
-        'ignore_sticky_posts' => 1,
+        //'post__in' => $sticky, 
+        //'ignore_sticky_posts' => 1,
         'post__not_in' => array( $post_id ),
         'post_type' => 'events',
         'meta_key' => 'race_date',
@@ -83,7 +83,7 @@
         <div class="ui top left attached green inverted large label member-joined-<?php echo $post->ID; ?>"><?php the_field('member_joined'); ?> Joined</div>
           <div class="ui hidden divider"></div>    
           <?php 
-              $content = the_content();
+              $content = get_the_content();
               $content = preg_replace("/<img[^>]+\>/i", " ", $content);          
               $content = apply_filters('the_content', $content);
               $content = str_replace(']]>', ']]>', $content);
