@@ -91,7 +91,7 @@ function add_custom_menus($items, $args)
         	$show_edit_button = '<div class="item"> <button id="btn-edit-page" class="ui red button">Edit Page</button> </div>';
 
             $first_name =  get_user_meta( get_current_user_id(), 'first_name', true );
-            if( isset( $first_name ))
+            if( isset( $first_name ) && ! empty( $first_name ))
                 $member_name = $first_name;
             else
                 $member_name = ucfirst($current_user->user_nicename);
@@ -116,7 +116,7 @@ function add_custom_menus($items, $args)
     				    	<a href="'.home_url( 'events' ).'" class="item">Events</a>
                             <a href="'.home_url( 'blog' ).'" class="item">Blog</a>
     				    	<div class="ui dropdown item">						
-    	                        <a href="'.home_url( $current_user->user_login ).'" class="item">
+    	                        <a class="item">
     	                           '.$member_name.'                                       
     								<i class="dropdown icon"></i>
     	                        </a>
@@ -218,10 +218,13 @@ function var_dump_pre( $post ) {
 
 add_action('init','author_base_rewrite');
 function author_base_rewrite() {
-	global $wp_rewrite;
+
+    global $wp_rewrite;       	
 	$wp_rewrite->author_base = 'member';
 	//$wp_rewrite->author_base = '';
-	$wp_rewrite->flush_rules();
+    $wp_rewrite->flush_rules();
+    
+    
 }
 
 add_action( 'init', 'custom_post_type_groups' );
