@@ -33,17 +33,14 @@ get_header();
           ?>
 
           <?php if ( count( $events ) > 0 ) : ?>            
-          <?php foreach ( $events as $event ) : ?>
-          <?php setup_postdata( $event ); ?>
+          <?php foreach ( $events as $event ) : setup_postdata( $event ); ?>
           <div class="item">
-            <a class="ui medium image" href="<?php echo home_url( 'events/' . $event->post_name ); ?>">
+            <a class="ui medium rounded image" href="<?php echo home_url( 'events/' . $event->post_name ); ?>">
               <?php if ( has_post_thumbnail( $event->ID ) ) {                  
                   echo get_the_post_thumbnail( $event->ID );
-              }else {
-                
+              } else {                
                 echo '<img src="'.WP_CONTENT_URL.'/uploads/thumbnail/wireframe.png">';
-              }
-              ?>
+              } ?>
             </a>
             <div class="content">              
               <a class="header" href="<?php echo home_url( 'events/' . $event->post_name ); ?>"><?php echo $event->post_title; ?> </a>
@@ -119,21 +116,21 @@ get_header();
       </div> <!-- items -->
   </div> <!-- twelve wide left col -->
   <div class="four wide right column">
-    <h3 class="ui header">Featured Events</h3>
+    <h4 class="ui header small-caps">featured events</h4>
     <div class="ui segments">
       <?php
       /* Get all Sticky Posts */
-      $sticky = get_option( 'sticky_posts' );
+      //$sticky = get_option( 'sticky_posts' );
 
       /* Sort Sticky Posts, newest at the top */
-      rsort( $sticky );
+      //rsort( $sticky );
 
       /* Get top 5 Sticky Posts */
-      $sticky = array_slice( $sticky, 0, 5 );
+      //$sticky = array_slice( $sticky, 0, 5 );
 
       $args = array(
-        'post__in' => $sticky, 
-        'ignore_sticky_posts' => 1,
+        //'post__in' => $sticky, 
+        //'ignore_sticky_posts' => 1,
         'post_type' => 'events',
         'meta_key' => 'race_date',
         'orderby' => 'meta_value_num',
@@ -167,7 +164,7 @@ get_header();
             <div class="sub header"><?php echo date('F d, Y',strtotime( get_field( 'race_date' ) ) ); ?></div>
           </h4>
           
-          <a href="<?php echo get_permalink(); ?>" class="ui medium image">
+          <a href="<?php echo get_permalink(); ?>" class="ui medium rounded image">
             <?php echo get_the_post_thumbnail(); ?>
           </a>
       </div>
@@ -176,6 +173,50 @@ get_header();
       wp_reset_postdata();
       ?>
     </div>
+
+    <h4 class="ui header small-caps">upcoming events</h4>
+    <div class="ui segments">
+      <?php
+
+      global $post;
+      $post_id = $post->ID;
+     
+      $args = array(
+        'post_type' => 'events',
+        'meta_key' => 'race_date',
+        'orderby' => 'meta_value_num',
+        'order' => 'ASC',
+        'meta_query' => array(
+          array(
+            'key' => 'race_date',
+            'value' => date('Ymd',strtotime(CUR_DATE)),
+            'compare' => '>=',
+          ),
+        ),
+      );
+
+      $query = new WP_Query( $args );
+
+      while( $query->have_posts() ) :
+        setup_postdata( $query );  
+        $query->the_post();
+        $ID = get_the_id();
+      ?>
+
+      <div class="ui raised segment">
+          <h4 class="ui header"><?php echo get_the_title(); ?>
+            <div class="sub header"><?php echo date('F d, Y',strtotime( get_field( 'race_date' ) ) ); ?></div>
+          </h4>
+          
+          <a href="<?php echo get_permalink(); ?>" class="ui medium rounded image">
+            <?php echo get_the_post_thumbnail(); ?>
+          </a>
+      </div>
+
+      <?php endwhile; 
+      wp_reset_postdata();
+      ?>
+    </div>  
   </div> <!-- four wide col -->
 </div> <!-- page -->
     
