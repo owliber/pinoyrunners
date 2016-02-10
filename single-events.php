@@ -1,27 +1,26 @@
 <?php get_header(); ?>
  
-<div id="page" class="ui grid container">
+<div id="page" class="ui mobile reversed grid stackable container">
   <div class="three wide column">
-    
+    <div class="ui <?php echo wp_is_mobile() ? 'mobile' : ''; ?> centered small rectangle ad" data-text="Small Rectangle">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- event_single_left_top_ad -->
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:180px;height:150px"
+           data-ad-client="ca-pub-8465880978474028"
+           data-ad-slot="3228504003"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
     <h4 class="ui header small-caps">upcoming events</h4>
     <div class="ui segments">
       <?php
 
       global $post;
       $post_id = $post->ID;
-
-      /* Get all Sticky Posts */
-      //$sticky = get_option( 'sticky_posts' );
-
-      /* Sort Sticky Posts, newest at the top */
-      //rsort( $sticky );
-
-      /* Get top 5 Sticky Posts */
-      //$sticky = array_slice( $sticky, 0, 15 );
      
       $args = array(
-        //'post__in' => $sticky, 
-        //'ignore_sticky_posts' => 1,
         'post__not_in' => array( $post_id ),
         'post_type' => 'events',
         'meta_key' => 'race_date',
@@ -44,12 +43,12 @@
         $ID = get_the_id();
       ?>
 
-      <div class="ui raised segment">
+      <div class="ui raised center aligned segment">
           <h4 class="ui header"><?php echo get_the_title(); ?>
             <div class="sub header"><?php echo date('F d, Y',strtotime( get_field( 'race_date' ) ) ); ?></div>
           </h4>
           
-          <a href="<?php echo get_permalink(); ?>" class="ui small image">
+          <a href="<?php echo get_permalink(); ?>" class="ui centered <?php echo wp_is_mobile() ? 'medium' : 'small'; ?> image">
             <?php echo get_the_post_thumbnail(); ?>
           </a>
       </div>
@@ -58,7 +57,31 @@
       wp_reset_postdata();
       ?>
     </div>  
-  
+    <div class="ui segment">
+      <!-- nuffnang -->
+      <script type="text/javascript">
+              nuffnang_bid = "190bbb46ac31869333f585289b543ad8";
+              document.write( "<div id='nuffnang_ss'></div>" );
+              (function() { 
+                      var nn = document.createElement('script'); nn.type = 'text/javascript';    
+                      nn.src = 'http://synad3.nuffnang.com.ph/ss.js';    
+                      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(nn, s.nextSibling);
+              })();
+      </script>
+      <!-- nuffnang-->                              
+    </div>
+    <div class="ui <?php echo wp_is_mobile() ? 'mobile' : ''; ?> centered wide skyscraper ad" data-text="Skyscraper">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- event_single_left_bottom -->
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:300px;height:250px"
+           data-ad-client="ca-pub-8465880978474028"
+           data-ad-slot="4705237201"
+           data-ad-format="auto"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
   </div> <!-- three wide left col -->
   <div class="thirteen wide column">
 
@@ -77,20 +100,18 @@
           <div class="sub header">
             Organized by <?php the_field('organizer');?>
           </div>
+          <div class="meta">
+            <div class="fb-like" data-href="<?php the_permalink(); ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+          </div>
         </div>      
       </h1>
       <div class="ui raised clearing padded segment">
         <div class="ui top left attached green inverted large label member-joined-<?php echo $post->ID; ?>"><?php the_field('member_joined'); ?> Joined</div>
           <div class="ui hidden divider"></div>    
           <?php 
-              $content = get_the_content();
-              $content = preg_replace("/<img[^>]+\>/i", " ", $content);          
-              $content = apply_filters('the_content', $content);
-              $content = str_replace(']]>', ']]>', $content);
-              echo $content;
-          ?>
-          <div class="fb-like" data-href="<?php the_permalink(); ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
-          <?php 
+            //display the content
+            the_content();
+
             if( is_user_logged_in() ) :
               if ( is_member_joined( $post_id )) : ?>
               <button class="ui right floated teal button" disabled> Joined</button>
@@ -159,24 +180,81 @@
             </td>
             <td><?php the_field('race_notes'); ?></td>
           </tr>
-          <?php /*
-          <tr>
-            <td class="collapsing">
-              <i class="pin icon"></i> Tags
-            </td>
-            <td><?php 
-              $taxonomies = array( 
-                  'post_tag',
-                  'event_tag',
-              );
-            var_dump(wp_get_post_terms( $post_id, 'event_tag' )); ?></td>
-          </tr> */ ?>
         </tbody>
       </table>
+      <div class="ui <?php echo wp_is_mobile() ? 'mobile' : ''; ?> centered leaderboard ad" data-text="Leaderboard">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- events_single_content_bottom -->
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:728px;height:90px"
+             data-ad-client="ca-pub-8465880978474028"
+             data-ad-slot="6181970405"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+     <div class="ui raised segment">
+      <div class="ui green top attached large label">Receive new event updates straight to your mailbox. Subscribe to us!</div>
+      <?php if( wp_is_mobile() ) : ?>
+        <div class="ui hidden divider"></div>
+      <?php endif; ?>
+        <form class="ui form" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=pinoyrunners', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true"> 
+            <div class="inline fields">
+              <div class="required six wide field">
+                <div class="ui input">       
+                  <input id="subscriber_name" type="text" placeholder="Enter your name" required>            
+                </div>
+              </div>
+              <div class="required ten wide field">    
+                <div class="ui input">         
+                <input id="subscriber_email" type="text" name="email" placeholder="Enter your email address" value="" required>
+                </div> 
+              </div>
+              <div class="field">    
+                <input type="hidden" value="pinoyrunners" name="uri"/><input type="hidden" name="loc" value="en_US"/>
+                <button type="submit" id="subscribe2" class="ui teal button" value="Subscribe" >Subscribe</button>
+              </div>
+            </div>
+          </form>
+          <div class="ui list">
+            <label class="ui label">Follow and connect with us</label>
+            <div class="item">
+              <i class="facebook square icon"></i>
+              <div class="content">
+                Facebook &raquo; <a href="https://www.facebook.com/pinoyrunners.co" target="_blank" title="Follow pinoyrunners.co on facebook">https://www.facebook.com/pinoyrunners.co</a>
+              </div>
+            </div>
+            <div class="item">
+              <i class="twitter square icon"></i>
+              <div class="content">
+                Twitter &raquo; <a href="https://www.twitter.com/pinoy_runners" target="_blank" title="Tweet us on twitter @pinoy_runners">https://www.twitter.com/pinoy_runners</a>
+              </div>
+            </div>
+            <div class="item">
+              <i class="instagram square icon"></i>
+              <div class="content">
+                Instagram &raquo; <a href="https://www.instagram.com/pinoyrunners.co" target="_blank" title="Follow us on Instagram @pinoyrunners.co">https://www.instagram.com/pinoyrunners.co</a>
+              </div>
+            </div>            
+            <div class="item">
+              <i class="google plus square icon"></i>
+              <div class="content">
+                Google+ &raquo; <a href="https://plus.google.com/107903672623011381092" target="_blank" title="Follow us on Google+">https://plus.google.com/107903672623011381092</a>
+              </div>
+            </div>
+          </div>
+          <div class="ui small header">Related Events</div>
+          <?php
+            if ( class_exists( 'Jetpack_RelatedPosts' ) ) {
+                echo do_shortcode( '[jetpack-related-posts]' );
+            }
+          ?>
+      </div>
 
       <!-- Facebook Comments -->
       <div class="ui segment">
-        <div class="header">Comments and feedback</div>
+        <div class="ui top attached large label">We love to hear from you runners. Share us your thoughts!</div>
+        <div class="ui hidden divider"></div>
         <div class="fb-comments" data-href="<?php the_permalink(); ?>" data-width="100%" data-numposts="10"></div>
       </div>
 

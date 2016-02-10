@@ -64,7 +64,7 @@
             $thumb_file = get_user_meta( $member->ID, 'pr_member_thumbnail_image', true );
       
             if ( empty( $thumb_file )) {
-              $thumbnail = 'http://placehold.it/800x800';
+              $thumbnail = 'https://placeholdit.imgix.net/~text?txtsize=75&txt=thumbnail&w=800&h=800';
             } else {
               $thumbnail = THUMB_DIR . '/'.$thumb_file;
             }

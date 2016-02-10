@@ -3,11 +3,19 @@
 add_theme_support( 'menus' );
 add_theme_support( 'custom-header' );
 add_theme_support( 'post-thumbnails' );
-//add_theme_support( 'custom-background' );
 add_theme_support( 'html5', array( 'search-form' ) );
 add_action( 'init', 'register_theme_menus' );
-//add_theme_support( 'title-tag' );
 add_filter('jetpack_enable_open_graph', '__return_false', 99);
+
+if( ! is_home() ) :
+    add_theme_support( 'infinite-scroll', array(
+                'container' => 'content',
+                'footer' => false,
+                'type' => 'scroll', //scroll, click
+                'wrapper'   => false,
+                'posts_per_page' => 7,
+            ) );
+endif;
 
 function register_theme_menus() {
 
@@ -96,42 +104,70 @@ function add_custom_menus($items, $args)
             else
                 $member_name = ucfirst($current_user->user_nicename);
 
-        	$items .= '<div class="left menu">
-    					    <div class="item">
-    					      <div class="ui search">
-                                  <div class="ui icon input">
-                                    <form role="search" method="post" class="search-form" action="'.home_url().'">
-                                      <label>
-                                          <input type="search" class="search-field" placeholder="'.esc_attr_x( 'Search an event, member, groups or interests …', 'placeholder' ).'" value="'.get_search_query().'" name="s" title="'.esc_attr_x( 'Search an event, member, groups or interests', 'label' ).'" required>
-                                      </label>
-                                    </form>
-                                    <i class="search icon"></i>
-                                  </div>
+            if ( wp_is_mobile() ) :
+
+                $items .= '<div class="ui dropdown item">
+                                <a class="view-ui item">
+                                    <i class="sidebar icon"></i> Menu
+                                 </a>
+                                 <div class="menu">
+                                    <a href="'.home_url( 'home' ).'" class="item"> Home</a>
+                                    <a href="'.home_url( 'connect' ).'" class="item"> Connect</a>
+                                    <a href="'.home_url( 'events' ).'" class="item"> Events</a>
+                                    <a href="'.home_url( 'blog' ).'" class="item"> Blog</a>
+                                    <hr />
+                                    <a class="item" href="'.home_url( 'member/'.$current_user->user_login ).'"> View Page</a>
+                                    <a class="item" href="'.home_url( 'settings/profile' ).'"> Edit Profile</a>
+                                    <a class="item" href="'.home_url( 'settings/account' ).'"> Account</a>
+                                    <a class="item" href="'.home_url( 'settings/privacy' ).'"> Privacy</a>                            
+                                    <a class="item" href="' . wp_logout_url('/index.php') . '" title="Logout"> ' . __( 'Logout' ) . '</a>
                                 </div>
-    					    </div>
-    					    <a href="'.home_url( 'connect' ).'" class="item">Connect</a>
-    				    </div>
-    				    <div class="right menu">
-    				    	<a href="'.home_url( 'home' ).'" class="item">Home</a>
-    				    	<a href="'.home_url( 'events' ).'" class="item">Events</a>
-                            <a href="'.home_url( 'blog' ).'" class="item">Blog</a>
-    				    	<div class="ui dropdown item">						
-    	                        <a class="item">
-    	                           '.$member_name.'                                       
-    								<i class="dropdown icon"></i>
-    	                        </a>
-    	                        <div class="menu">
-                                  '.$show_admin_link.'
-    	                           <a class="item" href="'.home_url( 'member/'.$current_user->user_login ).'">View Page</a>
-    	                           <a class="item" href="'.home_url( 'settings/profile' ).'">Edit Profile</a>
-    	                           <a class="item" href="'.home_url( 'settings/account' ).'">Account</a>
-    	                           <a class="item" href="'.home_url( 'settings/privacy' ).'">Privacy</a>
-    	                           <!-- <a class="item" href="'.home_url( 'settings/notifications' ).'">Notications</a> -->
-    	                           <a class="item" href="' . wp_logout_url('/index.php') . '" title="Logout">' . __( 'Logout' ) . '</a>
-    	                        </div> <!-- /Sub menu -->
-                        	</div>
-                        	'.$show_edit_button.'
-    				  </div>';
+                            </div>';
+                // if ( PR_Membership::is_member_page() ) :
+                //     $items .= '<div class="item"> <button id="btn-edit-page" class="ui red button">Edit Page</button> </div>';
+                // endif;
+            else :
+
+            	$items .= '<div class="left menu">
+            					    <div class="item">
+            					      <div class="ui search">
+                                          <div class="ui icon input">
+                                            <form role="search" method="post" class="search-form" action="'.home_url().'">
+                                              <label>
+                                                  <input type="search" class="search-field" placeholder="'.esc_attr_x( 'Search an event, member, groups or interests …', 'placeholder' ).'" value="'.get_search_query().'" name="s" title="'.esc_attr_x( 'Search an event, member, groups or interests', 'label' ).'" required>
+                                              </label>
+                                            </form>
+                                            <i class="search icon"></i>
+                                          </div>
+                                        </div>
+            					    </div>
+            					    <a href="'.home_url( 'connect' ).'" class="item">Connect</a>
+            				    </div>
+            				    <div class="right menu">
+                                    <div class="item">
+                                        <div class="fb-like" data-href="https://pinoyrunners.co" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+                                    </div>
+            				    	<a href="'.home_url( 'home' ).'" class="item">Home</a>
+            				    	<a href="'.home_url( 'events' ).'" class="item">Events</a>
+                                    <a href="'.home_url( 'blog' ).'" class="item">Blog</a>
+            				    	<div class="ui dropdown item">						
+            	                        <a class="item">
+            	                           '.$member_name.'                                       
+            								<i class="dropdown icon"></i>
+            	                        </a>
+            	                        <div class="menu">
+                                          '.$show_admin_link.'
+            	                           <a class="item" href="'.home_url( 'member/'.$current_user->user_login ).'">View Page</a>
+            	                           <a class="item" href="'.home_url( 'settings/profile' ).'">Edit Profile</a>
+            	                           <a class="item" href="'.home_url( 'settings/account' ).'">Account</a>
+            	                           <a class="item" href="'.home_url( 'settings/privacy' ).'">Privacy</a>
+            	                           <!-- <a class="item" href="'.home_url( 'settings/notifications' ).'">Notications</a> -->
+            	                           <a class="item" href="' . wp_logout_url('/index.php') . '" title="Logout">' . __( 'Logout' ) . '</a>
+            	                        </div> <!-- /Sub menu -->
+                                	</div>
+                                	'.$show_edit_button.'
+            				  </div>';
+            endif;
     	
     } elseif ( $menu_location == 'frontpage-menu') {
 
@@ -140,38 +176,58 @@ function add_custom_menus($items, $args)
         $register = is_page( 'register' );
         $login = is_page( 'login' );
 
-    	if ( !is_front_page() && ! $register && ! $login ) {
+        if ( wp_is_mobile() ) :
 
-    	 $items .= '<div class="left menu">
-					    <div class="item">
-					      <div class="ui icon input">
-                            <form role="search" method="post" class="search-form" action="'.home_url().'">
-                              <label>
-                                  <input type="search" class="search-field" placeholder="'.esc_attr_x( 'Search an event, member, groups or interests …', 'placeholder' ).'" value="'.get_search_query().'" name="s" title="'.esc_attr_x( 'Search an event, member, groups or interests ', 'label' ).'" required>
-                              </label>
-                            </form>
-                            <i class="search icon"></i>
-                          </div>
-					    </div>
-					    <a href="'.home_url( 'register' ).'" class="item">Register</a>
-				    </div>';
-   		 }
+            $items .= '<div id="mobile_menu" class="ui dropdown item">
+                                <a class="view-ui item">
+                                    <i class="sidebar icon"></i> Menu
+                                 </a>
+                                 <div class="menu">
+                                    <a href="'.home_url( 'login' ).'" class="item">Login</a>
+                                    <a href="'.home_url( 'register' ).'" class="item">Register</a>
+                                    <a href="'.home_url( 'connect' ).'" class="item">Connect</a>
+                                    <a href="'.home_url( 'events' ).'" class="item">Events</a>
+                                    <a href="'.home_url( 'blog' ).'" class="item">Blog</a>  
+                                </div>
+                            </div>';
+        else :
 
-    	if ( ! is_front_page() && ! $register && ! $login ) :
-            $show_login = '<a href="'.home_url( 'login' ).'" class="login item">Login</a>';
-    	    $menu_location = 'right';
-        else:
-            $menu_location = 'left';
+        	if ( ! is_front_page() && ! $register && ! $login ) {
+
+                $show_login = '<a href="'.home_url( 'login' ).'" class="login item">Login</a>';
+                $fb_like = '<div class="item">
+                                    <div class="fb-like" data-href="https://pinoyrunners.co" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+                                </div>';
+                $menu_location = 'right';
+
+            	 $items .= '<div class="left menu">
+        					    <div class="item">
+        					      <div class="ui icon input">
+                                    <form role="search" method="post" class="search-form" action="'.home_url().'">
+                                      <label>
+                                          <input type="search" class="search-field" placeholder="'.esc_attr_x( 'Search an event, member, groups or interests …', 'placeholder' ).'" value="'.get_search_query().'" name="s" title="'.esc_attr_x( 'Search an event, member, groups or interests ', 'label' ).'" required>
+                                      </label>
+                                    </form>
+                                    <i class="search icon"></i>
+                                  </div>
+        					    </div>
+        					    <a href="'.home_url( 'register' ).'" class="item">Register</a>
+        				    </div>';
+                
+       		} else {
+                $menu_location = 'left';
+                $fb_like = '';
+            }
+
+        	$items .= '<div id="lrmenu" class="'.$menu_location.' menu">
+                            '.$fb_like.'
+    						<a href="'.home_url( 'connect' ).'" class="item">Connect</a>
+                            <a href="'.home_url( 'events' ).'" class="item">Events</a>
+                            <a href="'.home_url( 'blog' ).'" class="item">Blog</a>
+                            <!-- <a href="'.home_url( 'about' ).'" class="item">About</a> -->
+                            '.$show_login.'
+                      </div>';
         endif;
-
-    	$items .= '<div id="lrmenu" class="'.$menu_location.' menu">
-						<a href="'.home_url( 'connect' ).'" class="item">Connect</a>
-                        <a href="'.home_url( 'events' ).'" class="item">Events</a>
-                        <a href="'.home_url( 'blog' ).'" class="item">Blog</a>
-                        <!-- <a href="'.home_url( 'about' ).'" class="item">About</a> -->
-                        '.$show_login.'
-                  </div>';
-
         
     }
     
@@ -257,8 +313,8 @@ function custom_post_type_groups() {
         'capability_type' => 'page',
         'has_archive' => true,
         'hierarchical' => true,
-        'menu_position' => null,
-        //'menu_icon' => get_template_directory_uri() . '/images/icons/people.png',
+        'menu_position' => 4,
+        'menu_icon' => 'dashicons-share',
         'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt','page-attributes', 'comments'),
     );
 
@@ -294,8 +350,8 @@ function custom_post_type_event() {
         //'capability_type' => 'page',
         'has_archive' => true,
         'hierarchical' => true,
-        'menu_position' => null,
-        //'menu_icon' => get_template_directory_uri() . '/images/icons/people.png',        
+        'menu_position' => 4,
+        'menu_icon' => 'dashicons-calendar-alt',        
         'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt','page-attributes', 'comments', 'tags', 'publicize'),
     );
     register_taxonomy('event_tag','events', array(
@@ -383,10 +439,29 @@ function author_description( $description ) {
 
 }
 
-add_action( 'wpseo_head', 'seo_modify',1,3);
+function author_link( $author_link ) {
+
+    $member = get_url_user_name();
+    $author_link = home_url( 'member/'.$member);
+    return $author_link;
+
+}
+
+function wpseo_disable_rel_next_home( $link ) {
+  if ( is_home() ) {
+    return false;
+  }
+}
+add_filter( 'wpseo_next_rel_link', 'wpseo_disable_rel_next_home' );
+
+add_action( 'wpseo_head', 'seo_modify');
 function seo_modify() {
     if( is_author()) { 
-        add_filter( 'wpseo_opengraph_image', 'author_background_image');
+        add_filter( 'wpseo_canonical', '__return_false' );
+        add_filter( 'wpseo_author_link', 'author_link');
+        add_filter( 'wpseo_opengraph_url', 'author_link');
+        add_filter( 'wpseo_opengraph_image', 'author_background_image');        
+        add_filter( 'wpseo_twitter_image', 'author_background_image');
         add_filter( 'wpseo_opengraph_desc', 'author_description');
         add_filter( 'wpseo_metadesc', 'author_description');
     }
@@ -397,23 +472,16 @@ function enqueue_ajax_actions() {
     if( is_user_logged_in() ) :
         add_action( 'wp_ajax_join_group', 'join_group' );
         add_action( 'wp_ajax_nopriv_join_group', 'join_group' );
+        add_action( 'wp_enqueue_scripts', 'enqueue_join_ajax_script' );
     endif;
 }
 
-add_action( 'wp_enqueue_scripts', 'enqueue_join_ajax_script' );
-add_action( 'wp_ajax_nopriv_subscribe_to_newsletter', 'subscribe_to_newsletter' );
-add_action( 'wp_ajax_subscribe_to_newsletter', 'subscribe_to_newsletter' );
-
 function enqueue_join_ajax_script() {   
   wp_enqueue_script( 'ajax-join-js', plugins_url(PR_Membership::PLUGIN_FOLDER  . '/js/ajax-join.js'), array('jquery'), '1.0.0', true );
-  if( is_user_logged_in() ) :
-      wp_localize_script( 'ajax-join-js', 'AjaxJoin', array(
-        'ajaxurl' => admin_url( 'admin-ajax.php' ),
-        'security' => wp_create_nonce( 'pr-join-a-group-event' ),
-        'subscribe' => wp_create_nonce( 'pr-subscribe-to-newsletter' )
-      ));
-  endif;
-  
+  wp_localize_script( 'ajax-join-js', 'AjaxJoin', array(
+    'ajaxurl' => admin_url( 'admin-ajax.php' ),
+    'security' => wp_create_nonce( 'pr-join-a-group-event' ),
+  ));
 }
 
 function join_group() {
@@ -474,35 +542,6 @@ function join_group() {
 
 }
 
-function subscribe_to_newsletter() {
-
-    if ( isset( $_POST['name'] ) && isset( $_POST['email'] ) && is_email( $_POST['email'] ) ) {
-
-        require_once( WP_PLUGIN_DIR . '/pr-membership/models/subscriber-model.php' );
-        $model = new Subscriber_Model;
-
-        $model->name = sanitize_text_field( $_POST['name'] );
-        $model->email = sanitize_email( $_POST['email'] );
-        $result = $model->insert();
-
-        if( $result ) {
-            $result_code = 0;
-            $result_msg ="Thank you for subscribing to us! See you on the road!";
-        } else {
-            $result_code = 0;
-            $result_msg ="Something went wrong, please try again later!";
-        }        
-
-        wp_send_json( array( 
-                'result_code'=>$result_code, 
-                'result_msg'=>$result_msg,
-            ) );
-
-        wp_die();
-
-    }
-}
-
 function get_groups() {
 
 	require_once( WP_PLUGIN_DIR . '/pr-membership/models/group-model.php' );
@@ -538,8 +577,10 @@ function get_members( $group_id ) {
 	return $member_lists;
 }
 
-add_action( 'wp_ajax_join_event', 'join_event' );
-add_action( 'wp_ajax_nopriv_join_event', 'join_event' );
+if ( ! is_home() ) :
+    add_action( 'wp_ajax_join_event', 'join_event' );
+    add_action( 'wp_ajax_nopriv_join_event', 'join_event' );
+endif;
 
 function join_event() {
     
@@ -671,3 +712,96 @@ function new_modify_user_table_row( $val, $column_name, $user_id ) {
     return $return;
 }
 add_filter( 'manage_users_custom_column', 'new_modify_user_table_row', 10, 3 );
+
+function add_class_to_image_links($html, $attachment_id, $attachment) {
+    $linkptrn = "/<a[^>]*>/";
+    $found = preg_match($linkptrn, $html, $a_elem);
+
+    // If no link, do nothing
+    if($found <= 0) return $html;
+
+    $a_elem = $a_elem[0];
+
+    // Check to see if the link is to an uploaded image
+    $is_attachment_link = strstr($a_elem, "wp-content/uploads/");
+
+    // If link is to external resource, do nothing
+    if($is_attachment_link === FALSE) return $html;
+
+    if(strstr($a_elem, "class=\"") !== FALSE){ // If link already has class defined inject it to attribute
+        $a_elem_new = str_replace("class=\"", "class=\"ui centered fluid image ", $a_elem);
+        $html = str_replace($a_elem, $a_elem_new, $html);
+    }else{ // If no class defined, just add class attribute
+        $html = str_replace("<a ", "<a class=\"ui centered fluid image\" ", $html);
+    }
+
+    return $html;
+}
+add_filter('image_send_to_editor', 'add_class_to_image_links', 10, 3);
+
+function jetpackme_remove_rp() {
+    if ( class_exists( 'Jetpack_RelatedPosts' ) ) {
+        $jprp = Jetpack_RelatedPosts::init();
+        $callback = array( $jprp, 'filter_add_target_to_dom' );
+        remove_filter( 'the_content', $callback, 40 );
+    }
+}
+add_filter( 'wp', 'jetpackme_remove_rp', 20 );
+
+add_filter( 'img_caption_shortcode', 'cleaner_caption', 10, 3 );
+function cleaner_caption( $output, $attr, $content ) {
+
+    /* We're not worried abut captions in feeds, so just return the output here. */
+    if ( is_feed() )
+        return $output;
+
+    /* Set up the default arguments. */
+    $defaults = array(
+        'id' => '',
+        'align' => 'alignnone',
+        'width' => '',
+        'caption' => ''
+    );
+
+    /* Merge the defaults with user input. */
+    $attr = shortcode_atts( $defaults, $attr );
+
+    /* If the width is less than 1 or there is no caption, return the content wrapped between the < tags. */
+    if ( 1 > $attr['width'] || empty( $attr['caption'] ) )
+        return $content;
+
+    /* Set up the attributes for the caption <div>. */
+    $attributes = ( !empty( $attr['id'] ) ? ' id="' . esc_attr( $attr['id'] ) . '"' : '' );
+    $attributes .= ' class="wp-caption ' . esc_attr( $attr['align'] ) . '"';
+/*  $attributes .= ' style="width: ' . esc_attr( $attr['width'] ) . 'px"';   */
+
+    /* Open the caption <div>. */
+    $output = '<div' . $attributes .'>';
+
+    /* Allow shortcodes for the content the caption was created for. */
+    $output .= do_shortcode( $content );
+
+    /* Append the caption text. */
+    $output .= '' . $attr['caption'] . '';
+
+    /* Close the caption </div>. */
+    $output .= '</div>';
+
+    /* Return the formatted, clean caption. */
+    return $output;
+}
+
+add_action('login_init', 'acme_autocomplete_login_init');
+function acme_autocomplete_login_init()
+{
+    ob_start();
+}
+ 
+add_action('login_form', 'acme_autocomplete_login_form');
+function acme_autocomplete_login_form()
+{
+    $content = ob_get_contents();
+    ob_end_clean();
+    $content = str_replace('id="user_pass"', 'id="user_pass" autocomplete="off"', $content);
+    echo $content;
+}

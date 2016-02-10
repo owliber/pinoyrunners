@@ -8,12 +8,12 @@
 
 	<div class="ui two column middle aligned very relaxed stackable grid container">
 	  <div class="ten wide column welcome">
-	  		<h1 class="ui green huge header">Run. Connect. Share.</h1>
-			<p class="lead">Run with your friends and fellow runners. <br />Connect, discover and share your achievements, <br />activities and profiles to the community.</p>
+	  		<h1 class="ui green <?php echo wp_is_mobile() ? 'medium' : 'huge'; ?> header">Run. Connect. Share.</h1>
+			<p>Run with your friends and fellow runners. <br />Connect, discover and share your achievements, <br />activities and profiles to the community.</p>
+	  		<!-- <div class="fb-like" data-href="https://pinoyrunners.co" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div> -->
 	  </div>
 	  
 	  <div class="six wide left aligned column">
-	  	<div class="ui hidden divider"></div>
 	    <?php get_sidebar('front-page'); ?>	
 	  </div>
 	</div>	
