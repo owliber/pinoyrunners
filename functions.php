@@ -417,6 +417,15 @@ function is_valid_member_page() {
 	}
 }
 
+function author_title( $title ) {
+  
+    $member = get_url_user_name();
+    $profile = get_user_by( 'login', $member );
+    $title = $profile->display_name;
+   
+    return $title;
+}
+
 function author_background_image( $image ) {
   
     $member = get_url_user_name();
@@ -458,6 +467,7 @@ add_action( 'wpseo_head', 'seo_modify');
 function seo_modify() {
     if( is_author()) { 
         add_filter( 'wpseo_canonical', '__return_false' );
+        add_filter( 'wpseo_title', 'author_title');
         add_filter( 'wpseo_author_link', 'author_link');
         add_filter( 'wpseo_opengraph_url', 'author_link');
         add_filter( 'wpseo_opengraph_image', 'author_background_image');        
@@ -805,3 +815,9 @@ function acme_autocomplete_login_form()
     $content = str_replace('id="user_pass"', 'id="user_pass" autocomplete="off"', $content);
     echo $content;
 }
+
+function add_query_vars_filter( $vars ){
+  $vars[] = "view";
+  return $vars;
+}
+add_filter( 'query_vars', 'add_query_vars_filter' );

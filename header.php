@@ -49,6 +49,20 @@
 
   <body class="site" <?php body_class(); ?>>
 
+      <?php if( ! is_home() ) : ?>
+        <!-- nuffnang -->
+        <script type="text/javascript">
+        nuffnang_bid = "190bbb46ac31869333f585289b543ad8";
+        document.write( "<div id='nuffnang_mm'></div>" );
+        (function() {   
+                var nn = document.createElement('script'); nn.type = 'text/javascript';    
+                nn.src = 'http://synad3.nuffnang.com.ph/mobile.js';    
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(nn, s.nextSibling);
+        })();
+        </script>
+        <!-- nuffnang -->
+      <?php endif; ?>
+
       <!-- Toggable Top Sidebar For Editing Page // is_user_logged_in() && is_author() -->
       
       <?php if ( PR_Membership::is_member_page() ) : ?>

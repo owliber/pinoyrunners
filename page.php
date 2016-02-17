@@ -8,7 +8,7 @@
 
 <?php get_header(); ?>
 
-<div class="ui site-content container">
+<div id="page" class="ui container">
 	<?php if ( have_posts() ) : ?>
 		<?php while( have_posts() ) : the_post(); ?>
 		<?php the_content(); ?>

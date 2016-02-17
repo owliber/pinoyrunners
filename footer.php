@@ -15,8 +15,8 @@
 			    		<a href="<?php echo home_url( 'events' ); ?>" class="item">events</a> &middot;
 			    		<a href="<?php echo home_url( 'blog'); ?>" class="item">blog</a> &middot; 
 			    		<a href="<?php echo home_url( 'register' ); ?>" class="item">register</a> &middot; 
-			    		<a href="<?php echo home_url( 'login' ); ?>" class="item">login</a>
-			    		<!-- <a href="<?php echo home_url(); ?>" class="item">terms</a> -->
+			    		<a href="<?php echo home_url( 'login' ); ?>" class="item">login</a> &middot; 
+			    		<a href="<?php echo home_url( 'privacy' ); ?>" class="item">privacy</a>
 			    	</div>
 			    	<div id="pr-footer-logo" class="center aligned column">
 			    		<a href="<?php echo home_url(); ?>"><img title="Pinoy Runners" src="<?php echo get_template_directory_uri(); ?>/assets/images/logo-small-pr.png" /></a>

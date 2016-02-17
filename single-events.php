@@ -13,6 +13,33 @@
       (adsbygoogle = window.adsbygoogle || []).push({});
       </script>
     </div>
+    <!-- Facebook Mobile Web Ad -->
+    <script>
+      window.fbAsyncInit = function() {
+        FB.Event.subscribe(
+          'ad.loaded',
+          function(placementId) {
+            console.log('Audience Network ad loaded');
+          }
+        );
+        FB.Event.subscribe(
+          'ad.error',
+          function(errorCode, errorMessage, placementId) {
+            console.log('Audience Network error (' + errorCode + ') ' + errorMessage);
+          }
+        );
+      };
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk/xfbml.ad.js#xfbml=1&version=v2.5&appId=1726152354286226";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <fb:ad placementid="1726152354286226_1751468458421282" format="300x250" testmode="false"></fb:ad>
+    <!-- Facebook Mobile Web Ad -->
+
     <h4 class="ui header small-caps">upcoming events</h4>
     <div class="ui segments">
       <?php
@@ -22,6 +49,7 @@
      
       $args = array(
         'post__not_in' => array( $post_id ),
+        'posts_per_page' => 15,
         'post_type' => 'events',
         'meta_key' => 'race_date',
         'orderby' => 'meta_value_num',
@@ -57,7 +85,7 @@
       wp_reset_postdata();
       ?>
     </div>  
-    <div class="ui segment">
+    <div class="ui basic segment">
       <!-- nuffnang -->
       <script type="text/javascript">
               nuffnang_bid = "190bbb46ac31869333f585289b543ad8";
