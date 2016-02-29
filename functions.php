@@ -44,7 +44,8 @@ add_action( 'wp_enqueue_scripts', 'wppr_theme_scripts' );
 function wppr_theme_scripts() {
 	wp_enqueue_script( 'jquery-min-js', get_stylesheet_directory_uri() . '/js/jquery.min.js', '', '', false );
 	wp_enqueue_script( 'sui-min-js', get_stylesheet_directory_uri() . '/js/semantic.min.js', array('jquery'), '', false );
-    wp_enqueue_script( 'membership-js', plugins_url( PR_Membership::PLUGIN_FOLDER  . '/js/membership-js.js' ), array('jquery'), '', true );
+    wp_enqueue_script( 'validate-js', plugins_url( PR_Membership::PLUGIN_FOLDER  . '/js/validate.js' ), array('jquery'), '', true );
+    wp_enqueue_script( 'membership-js', plugins_url( PR_Membership::PLUGIN_FOLDER  . '/js/membership.js' ), array('jquery'), '', true );
 
     if( is_user_logged_in() ):
         wp_enqueue_script( 'moment-min', plugins_url( PR_Membership::PLUGIN_FOLDER  . '/js/moment.js'), array('jquery' ), '', false );
@@ -86,7 +87,7 @@ function add_custom_menus($items, $args)
     $items = null;
     $show_edit_button = null;
     $show_admin_link = null;
-
+    $profile_link = null;
     
     if( is_user_logged_in() && $menu_location == 'homepage-menu' ) {
         
@@ -94,6 +95,10 @@ function add_custom_menus($items, $args)
             $show_admin_link = '<a class="item" href="'.home_url( 'wp-admin' ).'">Admin Page</a>';
 
         $current_user = wp_get_current_user();
+
+        if ( ! PR_Membership::is_member_page() ) :
+            $profile_link = '<a style="background: #000;opacity: 0.6;" class="item" href="'.home_url( 'member/'.$current_user->user_login ).'">View My Page</a>';
+        endif;
 
         if ( PR_Membership::is_member_page() )
         	$show_edit_button = '<div class="item"> <button id="btn-edit-page" class="ui red button">Edit Page</button> </div>';
@@ -123,10 +128,9 @@ function add_custom_menus($items, $args)
                                     <a class="item" href="' . wp_logout_url('/index.php') . '" title="Logout"> ' . __( 'Logout' ) . '</a>
                                 </div>
                             </div>';
-                // if ( PR_Membership::is_member_page() ) :
-                //     $items .= '<div class="item"> <button id="btn-edit-page" class="ui red button">Edit Page</button> </div>';
-                // endif;
+
             else :
+                
 
             	$items .= '<div class="left menu">
             					    <div class="item">
@@ -144,12 +148,13 @@ function add_custom_menus($items, $args)
             					    <a href="'.home_url( 'connect' ).'" class="item">Connect</a>
             				    </div>
             				    <div class="right menu">
-                                    <div class="item">
+                                 <!-- <div class="item">
                                         <div class="fb-like" data-href="https://pinoyrunners.co" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
-                                    </div>
+                                    </div> -->                                    
             				    	<a href="'.home_url( 'home' ).'" class="item">Home</a>
             				    	<a href="'.home_url( 'events' ).'" class="item">Events</a>
                                     <a href="'.home_url( 'blog' ).'" class="item">Blog</a>
+                                    '.$profile_link.'
             				    	<div class="ui dropdown item">						
             	                        <a class="item">
             	                           '.$member_name.'                                       
@@ -157,7 +162,6 @@ function add_custom_menus($items, $args)
             	                        </a>
             	                        <div class="menu">
                                           '.$show_admin_link.'
-            	                           <a class="item" href="'.home_url( 'member/'.$current_user->user_login ).'">View Page</a>
             	                           <a class="item" href="'.home_url( 'settings/profile' ).'">Edit Profile</a>
             	                           <a class="item" href="'.home_url( 'settings/account' ).'">Account</a>
             	                           <a class="item" href="'.home_url( 'settings/privacy' ).'">Privacy</a>
@@ -220,7 +224,6 @@ function add_custom_menus($items, $args)
             }
 
         	$items .= '<div id="lrmenu" class="'.$menu_location.' menu">
-                            '.$fb_like.'
     						<a href="'.home_url( 'connect' ).'" class="item">Connect</a>
                             <a href="'.home_url( 'events' ).'" class="item">Events</a>
                             <a href="'.home_url( 'blog' ).'" class="item">Blog</a>
