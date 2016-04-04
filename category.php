@@ -9,8 +9,20 @@ get_header(); ?>
 	<div id="page" class="ui grid stackable container">
 
 		<h2 class="ui left aligned header">
+			<div class="ui <?php echo wp_is_mobile() ? 'mobile' : ''; ?> centered leaderboard ad" data-text="Leaderboard">
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- blog_feed_top -->
+				<ins class="adsbygoogle"
+				     style="display:inline-block;width:728px;height:90px"
+				     data-ad-client="ca-pub-8465880978474028"
+				     data-ad-slot="3581316006"></ins>
+				<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+			</div>
+			<div class="ui hidden divider"></div>
             <div class="content">
-            	Recent Blog
+            	Runner's Blog
           	</div>
         </h2>
 

@@ -39,10 +39,21 @@ get_header(); ?>
 					}
 		         ?>
 		    </div>
+		    <div class="ui <?php echo wp_is_mobile() ? 'mobile' : ''; ?> centered leaderboard ad" data-text="Leaderboard">
+		    	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- blog_single_mid_ad -->
+				<ins class="adsbygoogle"
+				     style="display:inline-block;width:728px;height:90px"
+				     data-ad-client="ca-pub-8465880978474028"
+				     data-ad-slot="7871914800"></ins>
+				<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+		    </div>
 		    <div class="ui segment">
 		        <div class="header">Comments and feedback</div>
 		        <div class="fb-comments" data-href="<?php the_permalink(); ?>" data-width="100%" data-numposts="10"></div>
-		      </div>
+		    </div>
 
 	    <?php
 			// Add facebook comment plugin here

@@ -224,3 +224,7 @@ video#bgvid {
   font-variant: small-caps;
   font-size: 0.8rem;
 }
+
+a:hover#profile-page {
+  opacity: 0.4;
+}

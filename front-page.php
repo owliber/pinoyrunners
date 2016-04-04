@@ -16,6 +16,8 @@
 	  <div class="six wide left aligned column">
 	    <?php get_sidebar('front-page'); ?>	
 	  </div>
+
+	  <?php echo do_shortcode( '[sg_popup id=2]' ); ?>
 	</div>	
 	
 	<!-- Attribution for video background -->

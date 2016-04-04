@@ -8,6 +8,17 @@ get_header();
 ?>
 <div id="page" class="ui grid stackable container">
   <div class="twelve wide column">
+        <div class="ui <?php echo wp_is_mobile() ? 'mobile' : ''; ?> centered leaderboard ad" data-text="Leaderboard">
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- events_feed_top -->
+          <ins class="adsbygoogle"
+               style="display:inline-block;width:728px;height:90px"
+               data-ad-client="ca-pub-8465880978474028"
+               data-ad-slot="3360990001"></ins>
+          <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
         <h2 class="ui left aligned header">
           <i class="calendar icon"></i>
             <div class="content">
@@ -74,6 +85,17 @@ get_header();
   <div class="four wide right column">
     <div class="ui <?php echo wp_is_mobile() ? 'mobile' : ''; ?> centered medium rectangle ad" data-text="Medium Rectangle">
       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- events_right_top_ad2 -->
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:300px;height:250px"
+           data-ad-client="ca-pub-8465880978474028"
+           data-ad-slot="9267922804"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+    <div class="ui <?php echo wp_is_mobile() ? 'mobile' : ''; ?> centered medium rectangle ad" data-text="Medium Rectangle">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <!-- events_right_top_ad -->
       <ins class="adsbygoogle"
            style="display:inline-block;width:300px;height:250px"
@@ -87,7 +109,7 @@ get_header();
     <?php if ( ! is_user_logged_in() ) : ?>
       <button id="btn_subscribe" class="ui green default button">Subscribe</button>
     <?php endif; ?>
-    <h4 class="ui header small-caps">featured events</h4>
+    <h3 class="ui header small-caps">featured events</h3>
     <div class="ui segments">
       <?php
 
@@ -125,7 +147,7 @@ get_header();
             <div class="sub header"><?php echo date('F d, Y',strtotime( get_field( 'race_date' ) ) ); ?></div>
           </h4>
           
-          <a href="<?php echo get_permalink(); ?>" class="ui medium rounded image">
+          <a href="<?php echo get_permalink(); ?>" class="ui centered medium rounded image">
             <?php echo get_the_post_thumbnail(); ?>
           </a>
       </div>
@@ -174,7 +196,7 @@ get_header();
     <fb:ad placementid="1726152354286226_1751467905088004" format="300x250" testmode="false"></fb:ad>
     <!-- Facebook Mobile Web Ad -->
     
-    <h4 class="ui header small-caps">upcoming events</h4>
+    <h3 class="ui header small-caps">upcoming events</h3>
     <div class="ui segments">
       <?php
 
@@ -209,7 +231,7 @@ get_header();
             <div class="sub header"><?php echo date('F d, Y',strtotime( get_field( 'race_date' ) ) ); ?></div>
           </h4>
           
-          <a href="<?php echo get_permalink(); ?>" class="ui medium rounded image">
+          <a href="<?php echo get_permalink(); ?>" class="ui centered medium rounded image">
             <?php echo get_the_post_thumbnail(); ?>
           </a>
       </div>
@@ -242,10 +264,23 @@ get_header();
       (adsbygoogle = window.adsbygoogle || []).push({});
       </script>
     </div>
+    <div class="ui <?php echo wp_is_mobile() ? 'mobile' : ''; ?> centered medium rectangle ad" data-text="Medium Rectangle">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- events_right_bottom_ad -->
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:300px;height:250px"
+           data-ad-client="ca-pub-8465880978474028"
+           data-ad-slot="7798304409"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
       
   </div> <!-- four wide col -->
 </div> <!-- page -->
-    
+
+<?php echo do_shortcode( '[sg_popup id=2]' ); ?>
+
 <div id="modal-subscribe" class="ui small modal">    
   <div class="ui segment">
     <form class="ui form" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=pinoyrunners', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">

@@ -30,7 +30,7 @@
         $content = apply_filters('the_content', $content);
         $content = str_replace(']]>', ']]>', $content);
         $content = preg_replace('/^\s+|\n|\r|\s+$/m', '', $content);
-        $content = wp_trim_words($content, 50, ' ...');
+        $content = wp_trim_words($content, 25, ' ...');
         echo $content;
 
       ?>

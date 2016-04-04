@@ -49,6 +49,18 @@ get_header(); ?>
 		
 			<div class="ui relaxed divided items">
 				<h3 class="ui left aligned header">
+					<div class="ui <?php echo wp_is_mobile() ? 'mobile' : ''; ?> centered leaderboard ad" data-text="Leaderboard">
+						<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+						<!-- search_result_top_ad -->
+						<ins class="adsbygoogle"
+						     style="display:inline-block;width:728px;height:90px"
+						     data-ad-client="ca-pub-8465880978474028"
+						     data-ad-slot="9209047208"></ins>
+						<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+						</script>
+					</div>
+					<div class="ui hidden divider"></div>
 		          <i class="search icon"></i>
 		            <div class="content">
 		            <?php printf( __( 'Found '.$total_results.' result(s) for keyword "%s"', 'pr-membership' ), get_search_query() ); ?>
